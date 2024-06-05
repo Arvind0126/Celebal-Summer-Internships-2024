@@ -1,9 +1,9 @@
 ## Week-3 Assignment 
 
-1.Task is based on Level 0 concepts
-Resources :
-https://www.hackerrank.com/challenges/select-all-sql/problem
-2.Task is based on Level 0 concepts
+1.Task is based on Level 0 concepts<br>
+Resources :<br>
+https://www.hackerrank.com/challenges/select-all-sql/problem<br>
+2.Task is based on Level 0 concepts<br>
 Resources :
 https://www.hackerrank.com/challenges/select-by-id/problem
 3.Task is based on Level 0 concepts
