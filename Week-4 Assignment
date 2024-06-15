@@ -1,1 +1,387 @@
+Task 1  Weather Observation Station 8
 
+Query the list of CITY names from STATION which have vowels (i.e., a, e, i, o, and u) as both their first and last characters. Your result cannot contain duplicates.
+
+Input Format
+
+The STATION table is described as follows:
+           STATION
+Field                      Type
+ID                         NUMBER
+CITY                       VARCHAR2(21)
+STATE                      VARCHAR2(2)
+LAT_N                      NUMBER
+LONG_W                     NUMBER
+where LAT_N is the northern latitude and LONG_W is the western longitude.
+
+SOLUTION QUERY:-
+SELECT DISTINCT CITY FROM STATION 
+WHERE CITY LIKE '[AEIOU]%[AEIOU]';
+
+><------------------------------------------><---------------------------------------><
+
+Task 2 Population Density Difference
+
+Query the difference between the maximum and minimum populations in CITY.
+
+Input Format
+
+The CITY table is described as follows: 
+             CITY
+Field                   Type
+ID                      NUMBER
+NAME                    VARCHAR(17)
+COUNTRYCODE             VARCHAR(3)          
+DISTRICT                VARCHAR(20)
+POPULATION              NUMBER
+
+SOLUTION QUERY:-
+SELECT MAX(POPULATION) -  MIN(POPULATION) FROM CITY;
+
+><------------------------------------------><---------------------------------------><
+
+Task 3 Weather Observation Station 19
+
+Consider P1(a,c)  and P2(b,d) to be two points on a 2D plane where (a,b) 
+are the respective minimum and maximum values of Northern Latitude (LAT_N)
+and (c,d) are the respective minimum and maximum values of Western Longitude (LONG_W) in STATION.
+
+Query the Euclidean Distance between points P1 and P2 and format your answer to display  decimal digits.
+
+Input Format
+
+The STATION table is described as follows:
+           STATION
+Field                      Type
+ID                         NUMBER
+CITY                       VARCHAR2(21)
+STATE                      VARCHAR2(2)
+LAT_N                      NUMBER
+LONG_W                     NUMBER
+where LAT_N is the northern latitude and LONG_W is the western longitude.
+
+SOLUTION QUERY:-
+SELECT CAST( ROUND(
+    SQRT(
+        POWER(MAX(LAT_N) - MIN(LAT_N), 2) + POWER(MAX(LONG_W) - MIN(LONG_W), 2)
+    ),4 
+   ) AS DEC (18,4) )AS EuclideanDistance
+FROM STATION;
+
+><------------------------------------------><---------------------------------------><
+
+Task 4 Weather Observation Station 20
+
+A median is defined as a number separating the higher half of a data set from the lower half. Query the median
+of the Northern Latitudes (LAT_N) from STATION and round your answer to  decimal places.
+
+Input Format
+
+The STATION table is described as follows:
+           STATION
+Field                      Type
+ID                         NUMBER
+CITY                       VARCHAR2(21)
+STATE                      VARCHAR2(2)
+LAT_N                      NUMBER
+LONG_W                     NUMBER
+where LAT_N is the northern latitude and LONG_W is the western longitude.
+
+SOLUTION QUERY:-
+
+SELECT CAST (
+             ROUND(S.LAT_N,4) AS DEC(18,4)
+            ) FROM STATION S 
+WHERE  (
+           SELECT COUNT(LAT_N) FROM STATION WHERE LAT_N<S.LAT_N
+       ) =
+       (
+           SELECT COUNT(LAT_N) FROM STATION WHERE LAT_N>S.LAT_N
+       );
+
+><------------------------------------------><---------------------------------------><
+
+Task 5 African Cities
+
+Given the CITY and COUNTRY tables, query the names of all cities where the CONTINENT is 'Africa'.
+
+Note: CITY.CountryCode and COUNTRY.Code are matching key columns.
+
+Input Format
+
+The CITY and COUNTRY tables are described as follows:
+           CITY
+Field                   Type
+ID                      NUMBER
+NAME                    VARCHAR(17)
+COUNTRYCODE             VARCHAR(3)          
+DISTRICT                VARCHAR(20)
+POPULATION              NUMBER
+
+           COUNTRY
+Field                     Type
+CODE                      VARCHAR2(3)
+NAME                      VARCHAR2(44)
+CONTINENT                 VARCHAR2(13)
+REGION                    VARCHAR2(25)
+SURFACEAREA               NUMBER
+INDEPYEAR                 VARCHAR2(5)
+POPULATION                NUMBER
+LIFEEXPECTANCY            VARCHAR2(4)
+GNP                       NUMBER
+GNPOLD                    VARCHAR2(9)
+LOCALNAME                 VARCHAR2(44)
+GOVERNMENTFORM            VARCHAR2(44)
+HEADOFSTATE               VARCHAR2(32)
+CAPITAL                   VARCHAR2(4)
+CODE2                     VARCHAR2(2)
+
+SOLUTION QUERY:-
+SELECT CITY.NAME FROM CITY , COUNTRY  WHERE COUNTRY.CONTINENT='Africa' AND 
+CITY.COUNTRYCODE = COUNTRY.CODE;
+
+><------------------------------------------><---------------------------------------><
+
+Task 6 African Cities
+
+Given the CITY and COUNTRY tables, query the names of all cities where the CONTINENT is 'Africa'.
+
+Note: CITY.CountryCode and COUNTRY.Code are matching key columns.
+
+Input Format
+
+The CITY and COUNTRY tables are described as follows:
+           CITY
+Field                   Type
+ID                      NUMBER
+NAME                    VARCHAR(17)
+COUNTRYCODE             VARCHAR(3)          
+DISTRICT                VARCHAR(20)
+POPULATION              NUMBER
+
+           COUNTRY
+Field                     Type
+CODE                      VARCHAR2(3)
+NAME                      VARCHAR2(44)
+CONTINENT                 VARCHAR2(13)
+REGION                    VARCHAR2(25)
+SURFACEAREA               NUMBER
+INDEPYEAR                 VARCHAR2(5)
+POPULATION                NUMBER
+LIFEEXPECTANCY            VARCHAR2(4)
+GNP                       NUMBER
+GNPOLD                    VARCHAR2(9)
+LOCALNAME                 VARCHAR2(44)
+GOVERNMENTFORM            VARCHAR2(44)
+HEADOFSTATE               VARCHAR2(32)
+CAPITAL                   VARCHAR2(4)
+CODE2                     VARCHAR2(2)
+
+SOLUTION QUERY:-
+SELECT CITY.NAME FROM CITY , COUNTRY  WHERE COUNTRY.CONTINENT='Africa' AND 
+CITY.COUNTRYCODE = COUNTRY.CODE;
+
+><------------------------------------------><---------------------------------------><
+
+Task 7 The Report
+
+You are given two tables: Students and Grades. Students contains three columns ID, Name and Marks.
+  Column          Type
+ ID             Integer
+ Name           String
+ Marks          Integer
+
+Grades contains the following data:
+
+  Grade    Min_Mark    Max_Mark
+    1         0           9
+    2         10          19
+    3         20          29
+    4         30          39
+    5         40          49
+    6         50          59 
+    7         60          69  
+    8         70          79
+    9         80          89
+    10        90          100
+Ketty gives Eve a task to generate a report containing three columns: Name, Grade and Mark. 
+Ketty doesn't want the NAMES of those students who received a grade lower than 8. The report
+must be in descending order by grade -- i.e. higher grades are entered first. If there is 
+more than one student with the same grade (8-10) assigned to them, order those particular students
+by their name alphabetically. Finally, if the grade is lower than 8, use "NULL" as their name and 
+list them by their grades in descending order. If there is more than one student with the same grade
+(1-7) assigned to them, order those particular students by their marks in ascending order.
+
+Write a query to help Eve.
+
+Sample Input
+
+  ID     Name     Marks
+  1     Julia     88
+  2     Samantha  68
+  3     Maria     99
+  4     Scarlet   78
+  5     Ashley    63
+  6     Jane      81
+
+Sample Output
+Maria 10 99
+Jane 9 81
+Julia 9 88
+Scarlet 8 78
+Null 7 63
+Null 7 68
+
+SOLUTION QUERY:-
+SELECT CASE  WHEN Grade > 7 THEN S.Name
+  ELSE NULL END AS  Name ,
+  G.Grade,
+  S.Marks
+  from Students as S
+  inner join Grades as G
+  on S.Marks BETWEEN G.Min_Mark AND G.Max_Mark 
+  ORDER BY G.Grade Desc,
+                     S.Name ASC,
+                     S.Marks ASC;
+
+><------------------------------------------><---------------------------------------><
+
+Task 8 Top Competitors
+
+Julia just finished conducting a coding contest, and she needs your help assembling the leaderboard! 
+Write a query to print the respective hacker_id and name of hackers who achieved full scores for more
+than one challenge. Order your output in descending order by the total number of challenges in which the 
+hacker earned a full score. If more than one hacker received full scores in same number of challenges,
+then sort them by ascending hacker_id.
+
+Input Format
+
+The following tables contain contest data:
+
+* Hackers: The hacker_id is the id of the hacker, and name is the name of the hacker.
+
+      Column         Type
+    hacker_id       Integer
+    name            String
+
+* Difficulty: The difficult_level is the level of difficulty of the challenge, and
+  score is the score of the challenge for the difficulty level. 
+
+     Column                Type
+    difficulty_level       Integer
+    score                  Integer
+
+* Challenges: The challenge_id is the id of the challenge, the hacker_id is the id of the hacker who created
+  the challenge, and difficulty_level is the level of difficulty of the challenge.
+
+      Column                Type
+    challenge_id           Integer
+    hacker_id              Integer
+    difficulty_level       Integer
+
+* Submissions: The submission_id is the id of the submission, hacker_id is the id of the hacker who made the submission,
+  challenge_id is the id of the challenge that the submission belongs to, and score
+       Column                Type
+    submission_id          Integer
+    hacker_id              Integer
+    challenge_id           Integer
+    score                  Integer
+is the score of the submission.
+
+SOLUTION QUERY:-
+SELECT A.hacker_id, B.name
+FROM submissions AS A
+INNER JOIN hackers as B ON A.hacker_id = B.hacker_id
+INNER JOIN challenges as C ON A.challenge_id = C.challenge_id
+INNER JOIN Difficulty as D ON  C.difficulty_level = D.difficulty_level
+WHERE A.score = D.score
+GROUP BY A.hacker_id, B.name
+HAVING COUNT(*) > 1
+ORDER BY COUNT(*) DESC, A.hacker_id;
+
+><------------------------------------------><---------------------------------------><
+
+Task 9 Ollivander's Inventory
+
+Harry Potter and his friends are at Ollivander's with Ron, finally replacing Charlie's old broken wand.
+
+Hermione decides the best way to choose is by determining the minimum number of gold galleons needed to
+buy each non-evil wand of high power and age. Write a query to print the id, age, coins_needed, and 
+power of the wands that Ron's interested in, sorted in order of descending power. If more than one wand
+has same power, sort the result in order of descending age.
+
+Input Format
+
+The following tables contain data on the wands in Ollivander's inventory:
+
+* Wands: The id is the id of the wand, code is the code of the wand, coins_needed is the total number of
+gold galleons needed to buy the wand, and power denotes the quality of the wand (the higher the power, the better the wand is).
+ 
+               Column              Type
+              id                  Integer
+              code                Integer
+              coins_needed        Integer
+              power               Integer
+
+* Wands_Property: The code is the code of the wand, age is the age of the wand, and is_evil denotes whether the wand is good for 
+  the dark arts. If the value of is_evil is 0, it means that the wand is not evil. The mapping between code and age is one-one,
+  meaning that if there are two pairs,(code1, age1) and (code2, age2), then code1 != code2 and age1 != age2.
+
+               Column                Type
+              code                   Integer
+              age                    Integer
+              is_evil                Integer
+
+SOLUTION QUERY:-
+SELECT A.Id, B.age, A.coins_needed, A.power FROM Wands A
+JOIN Wands_Property B ON A.code = B.code
+WHERE B.is_evil = 0 AND A.coins_needed = (
+SELECT MIN(coins_needed) FROM Wands a1 JOIN Wands_Property b1
+    on a1.code = b1.code
+    where A.power = a1.power
+    AND B.age = b1.age
+)
+ORDER BY A.power DESC , B.age DESC;
+
+><------------------------------------------><---------------------------------------><
+
+Task 10 Contest Leaderboard
+
+You did such a great job helping Julia with her last coding contest challenge that she wants you to work on this one, too!
+
+The total score of a hacker is the sum of their maximum scores for all of the challenges. Write a query to print the 
+hacker_id, name, and total score of the hackers ordered by the descending score. If more than one hacker achieved the
+same total score, then sort the result by ascending hacker_id. Exclude all hackers with a total score of 0 from your 
+result.
+
+Input Format
+
+The following tables contain contest data:
+
+* Hackers: The hacker_id is the id of the hacker, and name is the name of the hacker.
+
+     Column         Type
+    hacker_id       Integer
+    name            String
+
+* Submissions: The submission_id is the id of the submission, hacker_id is the id of the hacker who made the submission,
+  challenge_id is the id of the challenge that the submission belongs to, and score
+       Column                Type
+    submission_id          Integer
+    hacker_id              Integer
+    challenge_id           Integer
+    score                  Integer
+  is the score of the submission.
+
+SOLUTION QUERY:-
+WITH CTE AS (
+SELECT hacker_id, challenge_id, MAX(score) AS SCORE1 FROM SUBMISSIONS
+GROUP BY hacker_id, challenge_id), CTE2 AS (
+ SELECT C.hacker_id, H.name, SUM(C.SCORE1) AS TOTAL_SCORE FROM CTE AS C
+INNER JOIN HACKERS AS H ON C.hacker_id = H.hacker_id
+GROUP BY C.hacker_id, H.name
+)
+SELECT *  FROM CTE2
+WHERE TOTAL_SCORE <> 0 
+ORDER BY TOTAL_SCORE DESC, hacker_id ;
+><------------------------------------------><---------------------------------------><
