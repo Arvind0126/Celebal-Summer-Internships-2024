@@ -1,0 +1,6 @@
+selected resource name:		Customer_pipeline
+selected resource type:		pipeline
+factory name:			Project-ADF-CSI
+factory location:		centralindia
+subscription id:		16b1f21d-9603-44ee-b80a-31e049856474
+time of download (UTC):		Sun, 07 Jul 2024 08:46:01 GMT

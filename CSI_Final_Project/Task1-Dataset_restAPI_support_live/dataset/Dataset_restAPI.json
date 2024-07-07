@@ -1,0 +1,23 @@
+{
+    "name": "Dataset_restAPI",
+    "properties": {
+        "linkedServiceName": {
+            "referenceName": "LS_For_RESTAPI",
+            "type": "LinkedServiceReference"
+        },
+        "parameters": {
+            "CountryName": {
+                "type": "string"
+            }
+        },
+        "annotations": [],
+        "type": "RestResource",
+        "typeProperties": {
+            "relativeUrl": {
+                "value": "@concat(dataset().CountryName)",
+                "type": "Expression"
+            }
+        },
+        "schema": []
+    }
+}

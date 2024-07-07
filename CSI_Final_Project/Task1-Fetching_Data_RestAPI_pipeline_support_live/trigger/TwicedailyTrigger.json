@@ -1,0 +1,33 @@
+{
+    "name": "TwicedailyTrigger",
+    "properties": {
+        "annotations": [],
+        "runtimeState": "Started",
+        "pipelines": [
+            {
+                "pipelineReference": {
+                    "referenceName": "Fetching_Data_RestAPI_pipeline",
+                    "type": "PipelineReference"
+                }
+            }
+        ],
+        "type": "ScheduleTrigger",
+        "typeProperties": {
+            "recurrence": {
+                "frequency": "Day",
+                "interval": 1,
+                "startTime": "2024-07-06T10:27:00",
+                "timeZone": "India Standard Time",
+                "schedule": {
+                    "minutes": [
+                        30
+                    ],
+                    "hours": [
+                        6,
+                        18
+                    ]
+                }
+            }
+        }
+    }
+}

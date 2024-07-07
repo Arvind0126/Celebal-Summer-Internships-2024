@@ -1,0 +1,6 @@
+selected resource name:		Fetching_Data_RestAPI_pipeline
+selected resource type:		pipeline
+factory name:			ADF-Project-CSI
+factory location:		centralindia
+subscription id:		16b1f21d-9603-44ee-b80a-31e049856474
+time of download (UTC):		Sat, 06 Jul 2024 10:35:49 GMT

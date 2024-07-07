@@ -1,0 +1,132 @@
+{
+    "name": "Customer_pipeline",
+    "properties": {
+        "activities": [
+            {
+                "name": "GetCustomerCount",
+                "type": "Lookup",
+                "dependsOn": [],
+                "policy": {
+                    "timeout": "0.12:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "source": {
+                        "type": "AzureSqlSource",
+                        "sqlReaderQuery": "SELECT COUNT(*) as CustomerCount FROM customer",
+                        "queryTimeout": "02:00:00",
+                        "partitionOption": "None"
+                    },
+                    "dataset": {
+                        "referenceName": "Dataset_for_customer",
+                        "type": "DatasetReference"
+                    }
+                }
+            },
+            {
+                "name": "CheckCustomerCount",
+                "type": "IfCondition",
+                "dependsOn": [
+                    {
+                        "activity": "GetCustomerCount",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "userProperties": [],
+                "typeProperties": {
+                    "expression": {
+                        "value": "@greater(activity('GetCustomerCount').output.firstRow.CustomerCount, 500)",
+                        "type": "Expression"
+                    },
+                    "ifTrueActivities": [
+                        {
+                            "name": "CopyCustomerData",
+                            "type": "Copy",
+                            "dependsOn": [],
+                            "policy": {
+                                "timeout": "0.12:00:00",
+                                "retry": 0,
+                                "retryIntervalInSeconds": 30,
+                                "secureOutput": false,
+                                "secureInput": false
+                            },
+                            "userProperties": [],
+                            "typeProperties": {
+                                "source": {
+                                    "type": "AzureSqlSource",
+                                    "queryTimeout": "02:00:00",
+                                    "partitionOption": "None"
+                                },
+                                "sink": {
+                                    "type": "DelimitedTextSink",
+                                    "storeSettings": {
+                                        "type": "AzureBlobFSWriteSettings"
+                                    },
+                                    "formatSettings": {
+                                        "type": "DelimitedTextWriteSettings",
+                                        "quoteAllText": true,
+                                        "fileExtension": ".txt"
+                                    }
+                                },
+                                "enableStaging": false,
+                                "translator": {
+                                    "type": "TabularTranslator",
+                                    "typeConversion": true,
+                                    "typeConversionSettings": {
+                                        "allowDataTruncation": true,
+                                        "treatBooleanAsNumber": false
+                                    }
+                                }
+                            },
+                            "inputs": [
+                                {
+                                    "referenceName": "Dataset_for_customer",
+                                    "type": "DatasetReference"
+                                }
+                            ],
+                            "outputs": [
+                                {
+                                    "referenceName": "Dataset_for_Storage_ADLS",
+                                    "type": "DatasetReference"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "CallProductPipeline",
+                            "type": "ExecutePipeline",
+                            "dependsOn": [
+                                {
+                                    "activity": "CopyCustomerData",
+                                    "dependencyConditions": [
+                                        "Succeeded"
+                                    ]
+                                }
+                            ],
+                            "policy": {
+                                "secureInput": false
+                            },
+                            "userProperties": [],
+                            "typeProperties": {
+                                "pipeline": {
+                                    "referenceName": "ProductPipeline",
+                                    "type": "PipelineReference"
+                                },
+                                "waitOnCompletion": true,
+                                "parameters": {
+                                    "CustomerCount": "@activity('GetCustomerCount').output.firstRow.CustomerCount"
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        ],
+        "annotations": []
+    }
+}

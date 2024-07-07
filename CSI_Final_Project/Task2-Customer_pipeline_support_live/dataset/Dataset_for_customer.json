@@ -1,0 +1,38 @@
+{
+    "name": "Dataset_for_customer",
+    "properties": {
+        "linkedServiceName": {
+            "referenceName": "LS_CustomerDB",
+            "type": "LinkedServiceReference"
+        },
+        "annotations": [],
+        "type": "AzureSqlTable",
+        "schema": [
+            {
+                "name": "id",
+                "type": "int",
+                "precision": 10
+            },
+            {
+                "name": "name",
+                "type": "varchar"
+            },
+            {
+                "name": "address",
+                "type": "varchar"
+            },
+            {
+                "name": "email",
+                "type": "varchar"
+            },
+            {
+                "name": "phone",
+                "type": "varchar"
+            }
+        ],
+        "typeProperties": {
+            "schema": "dbo",
+            "table": "customer"
+        }
+    }
+}
